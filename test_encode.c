@@ -1,11 +1,3 @@
-/*------------------------------------------------------------------
-NAME		:D.Venkat
-DESCRIPTION	:STEGANOGRAPHY
-DATE		:30/08/2024
- 
---------------------------------------------------------------------
- */
-
 #include <stdio.h>
 #include <string.h>
 #include "encode.h"
