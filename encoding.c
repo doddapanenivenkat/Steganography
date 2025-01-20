@@ -1,10 +1,3 @@
-/*---------------------------------------------------------------------------------
-NAME 		:D.Venkat
-DESCRIPTION	:STEGANOGRAPHY
-DATE		:30/08/2024
- 
------------------------------------------------------------------------------------
- */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -85,7 +78,6 @@ Status read_and_validate_encode_args(char *argv[], EncodeInfo *encInfo)
         printf("INFO: Opened %s\n", argv[3]);
         encInfo->secret_fname = argv[3];
         strcpy(encInfo->extn_secret_file, strchr(argv[3], '.'));
-        //printf("Extension file is %s\n", encInfo->extn_secret_file);
     } else
     {
         return e_failure;
@@ -228,7 +220,6 @@ Status copy_bmp_header(FILE *fptr_src_image, FILE *fptr_dest_image)
     fseek(fptr_src_image, 0, SEEK_SET);
     fread(BMP_header, 1, header_size, fptr_src_image);
     fwrite(BMP_header, 1, header_size, fptr_dest_image);
-    //printf("Copying BMP header length is %ld\n", ftell(fptr_dest_image));
     return e_success;
 }
 
@@ -312,7 +303,6 @@ Status encode_secret_file_extn_size(long file_size, EncodeInfo *encInfo)
     fread(temp_buffer, sizeof(char), 32, encInfo->fptr_src_image);
     encode_size_to_lsb(file_size, temp_buffer);
     fwrite(temp_buffer, sizeof(char), 32, encInfo->fptr_stego_image);
-    //printf("%ld",strlen(encInfo->extn_secret_file));
     return e_success;
 }
 
@@ -325,7 +315,6 @@ Status encode_secret_file_extn(const char *file_extn, EncodeInfo *encInfo)
         encode_byte_to_lsb(file_extn[i], image_buffer);
         fwrite(image_buffer, sizeof(char), 8, encInfo->fptr_stego_image);
     }
-   //printf("encoded exten file : %s\n",encInfo->extn_secret_file);
     return e_success;
 }
 
@@ -335,7 +324,6 @@ Status encode_secret_file_size(long file_size, EncodeInfo *encInfo)
     fread(temp_buffer, sizeof(char), 32, encInfo->fptr_src_image);
     encode_size_to_lsb(file_size, temp_buffer);
     fwrite(temp_buffer, sizeof(char), 32, encInfo->fptr_stego_image);
-   // printf("%ld",encInfo->size_secret_file);
     return e_success;
 }
 
@@ -346,14 +334,12 @@ Status encode_secret_file_data(EncodeInfo *encInfo)
     printf("INFO: Secret file data length : %ld\n",encInfo->size_secret_file);
     rewind(encInfo->fptr_secret);
     fread(data,1,encInfo->size_secret_file,encInfo->fptr_secret);
-    //data[encInfo->size_secret_file] = '\0';
     printf("INFO :Secret file data: %s\n",data);
     for (int i = 0; i < encInfo->size_secret_file; i++)
     {
         fread(image_buffer, sizeof(char), 8, encInfo->fptr_src_image);
         encode_byte_to_lsb(data[i], image_buffer);
         fwrite(image_buffer, sizeof(char), 8, encInfo->fptr_stego_image);
-	//printf("%c",data[i]);
     }
     return e_success;
 }
